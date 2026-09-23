@@ -1,6 +1,6 @@
 /*
  * *****************************************************************************
- * Copyright (C) 2014-2025 Dennis Sheirer
+ * Copyright (C) 2014-2026 Dennis Sheirer
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,6 @@ public class P25P1DemodulatorLSM
     private static final float TWO_PI = (float)(Math.PI * 2.0);
     private static final float MAX_PLL = (float)(Math.PI / 3.0); //+/- 800 Hz
     private static final float OBJECTIVE_MAGNITUDE = 1.0f;
-    private static final int SYMBOL_RATE = 4800;
 
     private final DibitToByteBufferAssembler mDibitAssembler = new DibitToByteBufferAssembler(300);
     private final FeedbackDecoder mFeedbackDecoder;
@@ -112,7 +111,6 @@ public class P25P1DemodulatorLSM
         double maxTimingAdjustment = samplesPerSymbol / 25;
         double pointer, residual, timingAdjustment;
         float magnitude, phaseError = 0, requiredGain, softSymbol, pllI, pllQ, pllTemp;
-//        float previousSymbol = 0;
         float iMiddle, qMiddle, iCurrent, qCurrent, iMiddleDemodulated, qMiddleDemodulated, iSymbol, qSymbol;
         int offset;
         Dibit hardSymbol;
@@ -221,7 +219,7 @@ public class P25P1DemodulatorLSM
                 //display the measured carrier offset value in the channel display
                 if(mMessageFramer.processWithSoftSyncDetect(softSymbol, hardSymbol))
                 {
-                    mFeedbackDecoder.processPLLError(pll, SYMBOL_RATE);
+                    mFeedbackDecoder.processPLLError(pll);
                 }
 
                 mDibitAssembler.receive(hardSymbol);
